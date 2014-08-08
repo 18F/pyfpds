@@ -4,9 +4,10 @@ __author__ = 'Kaitlin Devine'
 __email__ = 'katycorp@gmail.com'
 __version__ = '0.1.0'
 
-
+from collections import OrderedDict
 import xmltodict
 import requests
+import json
 
 field_map = {
     
@@ -79,9 +80,14 @@ boolean_map = {
 }
 
 
+def pretty_print(data):
+    print(json.dumps(data, indent=4))
+
 class Contracts():
     
     feed_url = "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q="
+    feed_size = 10
+    query_url = ''
 
     def convert_params(self, params):
 
@@ -93,6 +99,13 @@ class Contracts():
     def combine_params(self, params):
         return " ".join("%s:%s" % (k,v) for k,v in params.items())
 
+    def process_data(self, data):
+        #todo
+        if isinstance(data, dict):
+            #make a list so it's consistent
+            data = [data,]
+        return data
+
     def get(self, num_records=100, sort='date_signed', order='desc', **kwargs):
 
         params = self.combine_params(self.convert_params(kwargs))
@@ -100,10 +113,25 @@ class Contracts():
             sort_str = '&sortBy={0}&desc={1}'.format(field_map[sort], boolean_map[True]) 
         else:
             sort_str = '&sortBy={0}&desc={1}'.format(field_map[sort], boolean_map[False]) 
-        
         params += sort_str
-        resp = requests.get(self.feed_url + params)
-        data = xmltodict.parse(resp.text, process_namespaces=True, namespaces={'http://www.fpdsng.com/FPDS': None, 'http://www.w3.org/2005/Atom': None})
+
+        data = []
+        for n in range(0, num_records, 10):
+            resp = requests.get(self.feed_url + params + '&start={0}'.format(n))
+            self.query_url = resp.url
+            resp_data = xmltodict.parse(resp.text, process_namespaces=True, namespaces={'http://www.fpdsng.com/FPDS': None, 'http://www.w3.org/2005/Atom': None})
+            try:
+                processed_data = self.process_data(resp_data['feed']['entry'])
+                data.extend(processed_data)
+                #if data contains less than 10 records, break out of loop
+                if  len(processed_data) < 10:
+                    break
+            
+            except KeyError as e:
+                #no results
+                return []
+
+        #TODO: convert ordered_dicts into a simple list of dicts
 
         return data
 
