@@ -14,7 +14,7 @@ pyfpds
 
 pyfpds is a python wrapper for accessing federal contracting data in the Federal Procurement Data System (FPDS)
 
-* Free software: BSD license
+* Free software: CC0 1.0
 * Documentation: https://pyfpds.readthedocs.org.
 
 Features
@@ -24,7 +24,3 @@ Features
 
  - convert nested elements into flat record structure
  - unify three award types into the same type of record
- - loop through query to get all relevant records (with sensible default for the limit)
- - use some default ordering (date, mod number, etc)
- - support query by all the elements fpds atom supports
- - 

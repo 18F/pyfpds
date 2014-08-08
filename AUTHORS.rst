@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Kaitlin Devine <katycorp@gmail.com>
+* Kaitlin Devine <kaitlin.devine@gsa.gov>
 
 Contributors
 ------------
