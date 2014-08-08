@@ -13,6 +13,8 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
     # TODO: put package requirements here
+    'xmltodict',
+    'requests',
 ]
 
 test_requirements = [
@@ -25,7 +27,7 @@ setup(
     description='pyfpds is a python wrapper for accessing federal contracting data in the Federal Procurement Data System (FPDS)',
     long_description=readme + '\n\n' + history,
     author='Kaitlin Devine',
-    author_email='katycorp@gmail.com',
+    author_email='kaitlin.devine@gsa.gov',
     url='https://github.com/kaitlin/pyfpds',
     packages=[
         'pyfpds',
