@@ -80,14 +80,16 @@ boolean_map = {
 }
 
 
-def pretty_print(data):
-    print(json.dumps(data, indent=4))
-
 class Contracts():
     
     feed_url = "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q="
     feed_size = 10
     query_url = ''
+    
+    
+    def pretty_print(self, data):
+        print(json.dumps(data, indent=4))
+
 
     def convert_params(self, params):
 
@@ -116,20 +118,27 @@ class Contracts():
         params += sort_str
 
         data = []
-        for n in range(0, num_records, 10):
-            resp = requests.get(self.feed_url + params + '&start={0}'.format(n))
+        i = 0
+        #for n in range(0, num_records, 10):
+        while num_records == "all" or i < num_records:
+            
+            resp = requests.get(self.feed_url + params + '&start={0}'.format(i))
             self.query_url = resp.url
             resp_data = xmltodict.parse(resp.text, process_namespaces=True, namespaces={'http://www.fpdsng.com/FPDS': None, 'http://www.w3.org/2005/Atom': None})
             try:
                 processed_data = self.process_data(resp_data['feed']['entry'])
-                data.extend(processed_data)
+                for pd in processed_data:
+                    data.append(pd)
+                    i += 1
+                #data.extend(processed_data)
                 #if data contains less than 10 records, break out of loop
                 if  len(processed_data) < 10:
                     break
             
             except KeyError as e:
                 #no results
-                return []
+                print("Key Error on {0}".format(e))
+                break
 
         #TODO: convert ordered_dicts into a simple list of dicts
 
