@@ -137,7 +137,7 @@ class Contracts():
             
             except KeyError as e:
                 #no results
-                print("Key Error on {0}".format(e))
+                print("No results for query")
                 break
 
         #TODO: convert ordered_dicts into a simple list of dicts
