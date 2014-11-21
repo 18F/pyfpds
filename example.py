@@ -1,9 +1,13 @@
-from pyfpds import Contracts, pretty_print
+from pyfpds import Contracts
 
 c = Contracts()
-#records = c.get(piid='INA14PD00431')
-records = c.get(vendor_name="lockheed")
-pretty_print(records)
+
+#filter by a specific contract ID number
+records = c.get(piid="FA865014M5002")
+
+r = records[0]['content']['award']
+
+#pretty print the first record
+c.pretty_print(r)
+
 print("Length: {0}".format(len(records)))
-print(c.query_url)
-#print(records)

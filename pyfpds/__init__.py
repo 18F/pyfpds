@@ -108,14 +108,9 @@ class Contracts():
             data = [data,]
         return data
 
-    def get(self, num_records=100, sort='date_signed', order='desc', **kwargs):
+    def get(self, num_records=100, order='desc', **kwargs):
 
         params = self.combine_params(self.convert_params(kwargs))
-        if order == 'desc':
-            sort_str = '&sortBy={0}&desc={1}'.format(field_map[sort], boolean_map[True]) 
-        else:
-            sort_str = '&sortBy={0}&desc={1}'.format(field_map[sort], boolean_map[False]) 
-        params += sort_str
 
         data = []
         i = 0
@@ -132,7 +127,7 @@ class Contracts():
                 for pd in processed_data:
                     data.append(pd)
                     i += 1
-                #data.extend(processed_data)
+                
                 #if data contains less than 10 records, break out of loop
                 if  len(processed_data) < 10:
                     break
@@ -141,8 +136,6 @@ class Contracts():
                 #no results
                 print("No results for query")
                 break
-
-        #TODO: convert ordered_dicts into a simple list of dicts
 
         return data
 
