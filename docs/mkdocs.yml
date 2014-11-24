@@ -1,0 +1,4 @@
+site_name: Pyfpds
+pages:
+- [index.md, Pyfpds]
+theme: readthedocs
