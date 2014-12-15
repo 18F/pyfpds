@@ -9,12 +9,12 @@ except ImportError:
 
 
 readme = open('README.md').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
     # TODO: put package requirements here
     'xmltodict',
     'requests',
+    'mkdocs',
 ]
 
 test_requirements = [
@@ -25,7 +25,7 @@ setup(
     name='pyfpds',
     version='0.1.0',
     description='pyfpds is a python wrapper for accessing federal contracting data in the Federal Procurement Data System (FPDS)',
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     author='Kaitlin Devine',
     author_email='kaitlin.devine@gsa.gov',
     url='https://github.com/kaitlin/pyfpds',
