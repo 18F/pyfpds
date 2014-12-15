@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pyfpds</title>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="./css/highlight.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="./js/highlight.pack.js"></script>
+  <script src="./js/theme.js"></script>
+
+  <style>
+    body {font-size: 90%;}
+    pre, code {font-size: 100%;}
+    h3, h4, h5, h6 {color: #2980b9; font-weight: 300}
+  </style> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Pyfpds</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <ul class="current">
+    
+</ul>
+
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="."></a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    <li>Pyfpds</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              <h1 id="pyfpds">pyfpds</h1>
+<p>pyfpds is a basic python wrapper for accessing federal contracting data in the Federal Procurement Data System (FPDS). The only programmatic access to this data is via an ATOM feed that limits each request to 10 records. This can be quite frustrating if you want more than 10 records! This library will grab up to any number of records requested (the default being 100) and compile them into one data structure. Subsequently, the performance is not exemplary, as much of the processing time is spent in http transport. However, if you have the time, it makes life a bit easier :). Additionally, the ATOM feed does not support sorting. If you want to get complete data sorted by a field, you essentially have to pull down all records and sort them in python.</p>
+<p>This project was created to assist with ETL tasks that are part of the <a href="https://github.com/18F/mirage">Mirage project</a>. If you have suggestions for features, open an issue, or consider contributing to the project yourself (see CONTRIBUTING). </p>
+<h3 id="requirements">Requirements</h3>
+<p>This project supports python 2.7+. To install the dependencies, use pip:
+<code>pip install -r requirements.txt</code></p>
+<h3 id="some-helpful-links">Some helpful links:</h3>
+<ul>
+<li><a href="http://beta.fpdsng.com/wiki/index.php/ATOM_Feed_FAQ">FPDS ATOM feed FAQ</a></li>
+<li><a href="http://beta.fpdsng.com/wiki/index.php/ATOM_Feed_FAQ">FPDS ATOM feed query fields and example usage</a></li>
+<li><a href="https://www.fpds.gov/fpdsng_cms/index.php/en/">FPDS search</a></li>
+<li><a href="https://pyfpds.readthedocs.org">Full documentation for pyfpds</a></li>
+</ul>
+<h3 id="usage">Usage</h3>
+<p>The <code>Contracts</code> object can be used to fetch records filtered by several attributes using keyword arguments. The result returned is a list of <code>OrderedDict</code> objects.</p>
+<p>Example:</p>
+<pre><code>from pyfpds import Contracts
+
+c = Contracts()
+
+#filter by a specific contract ID number
+records = c.get(piid=&quot;FA865014M5002&quot;)
+
+r = records[0]['content']['award']
+
+#pretty print the first record
+c.pretty_print(r)
+</code></pre>
+
+<p>Possible Keyword Arguments:</p>
+<pre><code>    piid
+    idv_piid
+    idv_agency_id
+    modification_number     
+    contracting_agency_id     
+    contracting_agency_name
+    contracting_office_id
+    contracting_office_name
+    funding_agency_id
+    funding_office_id
+    funding_office_name
+    agency_code
+    agency_name
+    department_id
+    department_name
+
+    last_modified_date
+    last_modified_by
+    award_completion_date
+    created_on
+    date_signed
+    effective_date
+    estimated_completion_date
+
+    obligated_amount
+    ultimate_contract_value
+    contract_pricing_type
+
+    award_status
+    contract_type
+    created_by
+    description
+    modification_reason
+    legislative_mandates
+    local_area_setaside
+    socioeconomic_indicators
+    multiyear_contract
+    national_interest_code
+    national_interest_description
+
+    naics_code
+    naics_description
+    product_or_service_code
+    product_or_service_description
+
+    place_of_performance_district
+    place_of_performance_country
+    place_of_performance_state
+
+    vendor_city
+    vendor_district
+    vendor_country_code
+    vendor_country_name
+    vendor_duns
+    vendor_dba_name
+    vendor_name
+    vendor_state_code
+    vendor_state_name
+    vendor_zip
+
+    piid
+    idv_piid
+    idv_agency_id
+    modification_number
+
+    contracting_agency_id
+    contracting_agency_name 
+    contracting_office_id
+    contracting_office_name
+    funding_agency_id
+    funding_office_id
+    funding_office_name
+    agency_code
+    agency_name
+    department_id
+    department_name
+
+    last_modified_date
+    last_modified_by
+    award_completion_date
+    created_on
+    date_signed
+    effective_date
+    estimated_completion_date
+
+    obligated_amount
+    ultimate_contract_value
+    contract_pricing_type
+
+    award_status
+    contract_type
+    created_by
+    description
+    modification_reason
+    legislative_mandates
+    local_area_setaside
+    socioeconomic_indicators
+    multiyear_contract
+    national_interest_code
+    national_interest_description
+
+    naics_code
+    naics_description
+    product_or_service_code
+    product_or_service_description
+
+    place_of_performance_district
+    place_of_performance_country
+    place_of_performance_state
+
+    vendor_city
+    vendor_district
+    vendor_country_code
+    vendor_country_name
+    vendor_duns
+    vendor_dba_name
+    vendor_name
+    vendor_state_code
+    vendor_state_name
+    vendor_zip
+</code></pre>
+
+<p>To find valid values for these arguments, please see the <a href="https://www.fpds.gov/downloads/Version_1.4_specs/FPDSNG_DataDictionary_V1.4.pdf">FPDS Data Dictionary</a> which enumerates valid values for each attribute name. </p>
+
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        
+      <span><a href="" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="" style="color: #fcfcfc">Next &raquo;</a></span>
+    </span>
+</div>
+</body>
+</html>
