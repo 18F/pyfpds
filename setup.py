@@ -14,7 +14,6 @@ requirements = [
     # TODO: put package requirements here
     'xmltodict',
     'requests',
-    'mkdocs',
 ]
 
 test_requirements = [
