@@ -10,7 +10,7 @@ This project supports python 2.7+. To install the dependencies, use pip:
 
 ### Some helpful links:
 * [FPDS ATOM feed FAQ](http://beta.fpdsng.com/wiki/index.php/ATOM_Feed_FAQ)
-* [FPDS ATOM feed query fields and example usage](http://beta.fpdsng.com/wiki/index.php/ATOM_Feed_FAQ)
+* [FPDS ATOM feed query fields and example usage](https://www.fpds.gov/wiki/index.php/Atom_Feed_Usage)
 * [FPDS search](https://www.fpds.gov/fpdsng_cms/index.php/en/)
 * [Full documentation for pyfpds](https://pyfpds.readthedocs.org)
 
