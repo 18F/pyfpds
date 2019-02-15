@@ -43,3 +43,9 @@ output/*/index.html
 
 # Sphinx
 docs/_build
+
+Eclipse IDE
+.project
+.pydevproject
+.settings/
+
